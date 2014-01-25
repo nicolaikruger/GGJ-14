@@ -83,6 +83,16 @@ public class NetworkManagerScript : MonoBehaviour {
 	}
 
 
+	//
+	// Other server events
+	//
+	void OnPlayerDisconnected(NetworkPlayer player) {
+		Debug.Log("Clean up after player " +  player);
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+	}
+
+
 
 
 	//

@@ -4,14 +4,22 @@ using System.Collections;
 public class WASD_Movement : MonoBehaviour {
 
     public PlayerMovement _player;
+	public Camera _cam;
 
 	// Use this for initialization
 	void Start () {
-        _player = (PlayerMovement) this.GetComponent("PlayerMovement");
+		// Disable if not player for this client
+		if (!networkView.isMine) {
+			enabled = false;
+			_cam.enabled = false;
+		}
+
+		_player = (PlayerMovement) this.GetComponent("PlayerMovement");
 	}
 
     void Update()
     {
+
 		if (Input.GetKey (KeyCode.Space)) {
 			_player.Dash ();
 		}
