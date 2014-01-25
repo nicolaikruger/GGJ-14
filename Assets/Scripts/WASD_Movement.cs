@@ -12,34 +12,27 @@ public class WASD_Movement : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
+		if (Input.GetKey (KeyCode.Space)) {
+			_player.Dash ();
+		}
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             _player.TurnLeft();
-          //  setPlayerModeToCombet();
         }
 
-        if (Input.GetKey(KeyCode.D))
+		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             _player.TurnRight();
-          //  setPlayerModeToCombet();
         }
 
-        if (Input.GetKey(KeyCode.W))
+		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-			Debug.Log ("Pressed W");
             _player.MoveForward();
-          //  setPlayerModeToCombet();
         }
 
-        if (Input.GetKey(KeyCode.S))
+		if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             _player.MoveBackward();
-          //  setPlayerModeToCombet();
         }
-    }
-
-    private void setPlayerModeToCombet()
-    {
-       // PlayerCharacter.PlayerMode = PlayerMode.Combat;
     }
 }
