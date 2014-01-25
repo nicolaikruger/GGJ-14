@@ -101,6 +101,10 @@ public class NetworkManagerScript : MonoBehaviour {
 				Debug.Log ("Refreshing server list...");
 				RefreshHostList();
 			}
+			if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "DirectIP") {
+				Network.Connect("192.168.50.195", 25002);
+			}
+			/*
 			if (hosts != null) {
 				for (int i = 0; i < hosts.Length; i++) {
 					// put out a button for each server, clicking it will connect to server
@@ -113,6 +117,7 @@ public class NetworkManagerScript : MonoBehaviour {
 					}
 				}
 			}
+			*/
 		}
 	}
 }
