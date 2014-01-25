@@ -91,23 +91,26 @@ public class NetworkManagerScript : MonoBehaviour {
 
 	// Called with each GUI event (multiple times per frame sometimes)
 	void OnGUI() {
-		if (GUI.Button(new Rect(btnX, btnY, btnW, btnH), "Start server")) {
-			Debug.Log ("Starting Server");
-			StartServer();
-		}
-		if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Refresh server list")) {
-			Debug.Log ("Refreshing server list...");
-			RefreshHostList();
-		}
-		if (hosts != null) {
-			for (int i = 0; i < hosts.Length; i++) {
-				// put out a button for each server, clicking it will connect to server
-				if (
-				GUI.Button(
-					new Rect(btnX * 1.5f + btnW, btnY * 1.2f + (btnH * i), btnW*3f, btnH), 
-					hosts[i].ip[0] + " - " + hosts[i].connectedPlayers + " players")
-				) {
-					Network.Connect(hosts[i]);
+		// Don't show connection UI if you are connected or hosting server already
+		if (!Network.isServer && !Network.isClient) {
+			if (GUI.Button(new Rect(btnX, btnY, btnW, btnH), "Start server")) {
+				Debug.Log ("Starting Server");
+				StartServer();
+			}
+			if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Refresh server list")) {
+				Debug.Log ("Refreshing server list...");
+				RefreshHostList();
+			}
+			if (hosts != null) {
+				for (int i = 0; i < hosts.Length; i++) {
+					// put out a button for each server, clicking it will connect to server
+					if (
+					GUI.Button(
+						new Rect(btnX * 1.5f + btnW, btnY * 1.2f + (btnH * i), btnW*3f, btnH), 
+						hosts[i].ip[0] + " - " + hosts[i].connectedPlayers + " players")
+					) {
+						Network.Connect(hosts[i]);
+					}
 				}
 			}
 		}

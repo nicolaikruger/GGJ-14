@@ -22,6 +22,7 @@ public class Movement : MonoBehaviour {
 				transform.Translate(Vector3.right * Time.deltaTime * speed);
 			}
 		}
+		// Disable movement if this isn't a GO of this client
 		else enabled = false;
 	}
 }
