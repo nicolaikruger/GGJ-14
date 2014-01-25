@@ -21,8 +21,13 @@ public class PlayerScript : MonoBehaviour {
 
 	[HideInInspector] public int playerCount;
 
+<<<<<<< HEAD
+	int team = NOTEAM;
+	int role = 0;
+=======
 	[HideInInspector] public int team = NOTEAM;
 	[HideInInspector] public int role = 0;
+>>>>>>> origin/master
 
 	[HideInInspector] public float dashCooldown;
 	[HideInInspector] public float interactionCooldown;
