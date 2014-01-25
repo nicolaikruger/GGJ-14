@@ -37,7 +37,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		Debug.Log ("Trigger Event!");
+		if (collider.tag == "Player") {			
+			Debug.Log ("Trigger Event!");
+		} 
 	}
 
     public void TurnLeft()

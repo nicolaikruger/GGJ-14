@@ -11,12 +11,14 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400002}
   - 64: {fileID: 6400000}
+  - 65: {fileID: 6500000}
   - 114: {fileID: 11400000}
   - 148: {fileID: 14800000}
-  - 65: {fileID: 6500000}
+  - 148: {fileID: 14800002}
+  - 114: {fileID: 11400004}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,13 +226,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49cd34893191d8c4f940d40e6dfdeeeb, type: 3}
+  m_Script: {fileID: 11500000, guid: 677d671452c2d4ddcbb15bfa47bcc3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _turnSpeed: 2
   _walkSpeed: 4
   _backSpeed: 1
-  _dashSpeed: 63.4099998
+  _dashSpeed: 30
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7acfff40e0568d64ea7a507b55f10a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noTeamMaterial: {fileID: 2100000, guid: b7f3ead85f60e45019113055bf6dff55, type: 2}
+  _blueTeamMaterial: {fileID: 2100000, guid: 318edfe34a7a34a0cac5a0a266e81058, type: 2}
+  _redTeamMaterial: {fileID: 2100000, guid: ed86959685faa4d84a6e2da17e2bda8f, type: 2}
+  _renderer: {fileID: 2300000}
+  _dashCooldownTime: 5
+  _interactionCooldownTime: 5
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -247,6 +266,18 @@ NetworkView:
   m_Enabled: 1
   m_StateSynchronization: 1
   m_Observed: {fileID: 400000}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
+--- !u!148 &14800002
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 11400004}
   m_ViewID:
     m_ID: 0
     m_Type: 0
