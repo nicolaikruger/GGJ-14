@@ -23,10 +23,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void Awake()
     {
-		foreach (GameObject wall in GameObject.FindGameObjectsWithTag("BlueWalls")) {
-			BoxCollider collider = (BoxCollider) wall.GetComponent<BoxCollider>();
-			collider.enabled = false;
-		}
         this._trans = this.transform;
     }
 

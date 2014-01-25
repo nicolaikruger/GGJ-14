@@ -51,18 +51,13 @@ public class PlayerScript : MonoBehaviour {
 	
 	}
 
+	// When player collides with shit
 	void OnTriggerEnter(Collider collider) {
 		if (Network.isServer) {
 			if (collider.tag == "Pickup") {
 				networkView.RPC("SetTeam", RPCMode.All, BLUE);
 			}
 		}
-
-
-		if (collider.tag == "Player") {
-			if(!networkView.isMine && Network.isServer)
-				networkView.RPC ("Test", RPCMode.All, "heyhey");
-		} 
 	}
 
 
@@ -73,9 +68,22 @@ public class PlayerScript : MonoBehaviour {
 
 	[RPC]
 	public void SetTeam(int newTeam) {
+		// change team and color
 		team = newTeam;
 		_renderer.material = teamMaterials[newTeam];
-		Debug.Log("Changed material");
+
+		// fix wall-collision if your team was changed
+		if (networkView.isMine) {
+			foreach (GameObject wall in GameObject.FindGameObjectsWithTag("BlueWalls")) {
+				BoxCollider collider = (BoxCollider) wall.GetComponent<BoxCollider>();
+				collider.enabled = team == BLUE ? false : true;
+			}
+
+			foreach (GameObject wall in GameObject.FindGameObjectsWithTag("RedWalls")) {
+				BoxCollider collider = (BoxCollider) wall.GetComponent<BoxCollider>();
+				collider.enabled = team == RED ? false : true;
+			}
+		}
 	}
 
 	[RPC]
@@ -105,6 +113,17 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	// TODO add for alive/dead as well
+	[RPC]
+	public void Kill() {
+		alive = false;
+		// TODO whatevs, maybe remove, maybe dead body, w/e
+		SetPosition(new Vector3(0, -50, 0));
+	}
+
+	[RPC]
+	public void Spawn() {
+
+	}
 
 	[RPC]
 	public void SetPosition(Vector3 pos) {
