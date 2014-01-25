@@ -101,7 +101,7 @@ public class NetworkManagerScript : MonoBehaviour {
 				Debug.Log ("Refreshing server list...");
 				RefreshHostList();
 			}
-			if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "DirectIP") {
+			if (GUI.Button(new Rect(btnX, btnY * 2.2f + btnH, btnW, btnH), "DirectIP")) {
 				Network.Connect("192.168.50.195", 25002);
 			}
 			/*

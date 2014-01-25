@@ -210,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxConnections: 4
   port: 25002
-  gameNameForMasterServer: GGJ14_Game_CPH
+  gameNameForMasterServer: J14_Game_CPHPH
   gameName: GGJ14 Game server!
   comment: 
   spawnPoint: {fileID: 1302928753}
