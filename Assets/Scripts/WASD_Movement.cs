@@ -15,25 +15,26 @@ public class WASD_Movement : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             _player.TurnLeft();
-            setPlayerModeToCombet();
+          //  setPlayerModeToCombet();
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             _player.TurnRight();
-            setPlayerModeToCombet();
+          //  setPlayerModeToCombet();
         }
 
         if (Input.GetKey(KeyCode.W))
         {
+			Debug.Log ("Pressed W");
             _player.MoveForward();
-            setPlayerModeToCombet();
+          //  setPlayerModeToCombet();
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             _player.MoveBackward();
-            setPlayerModeToCombet();
+          //  setPlayerModeToCombet();
         }
     }
 

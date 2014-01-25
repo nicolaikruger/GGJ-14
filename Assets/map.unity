@@ -83,9 +83,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 3256377}
   - 143: {fileID: 3256381}
-  - 114: {fileID: 3256378}
-  - 114: {fileID: 3256379}
   - 54: {fileID: 3256380}
+  - 136: {fileID: 3256383}
+  - 114: {fileID: 3256379}
+  - 114: {fileID: 3256378}
+  - 114: {fileID: 3256382}
   m_Layer: 0
   m_Name: First Person Controller
   m_TagString: Untagged
@@ -100,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 1065258480}
   m_GameObject: {fileID: 3256376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.0641489, y: 4.00597477, z: -4.80295563}
+  m_LocalPosition: {x: 9.0641489, y: 5.22188663, z: -4.80295563}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 836904138}
@@ -112,66 +114,29 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 3256376}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ab79d7f243824f5d9826bd83522c8df, type: 3}
+  m_Script: {fileID: 11500000, guid: 677d671452c2d4ddcbb15bfa47bcc3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canControl: 1
-  useFixedUpdate: 1
-  movement:
-    maxForwardSpeed: 10
-    maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 10
-    slopeSpeedMultiplier:
-      serializedVersion: 2
-      m_Curve:
-      - time: -90
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - time: 90
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-    maxGroundAcceleration: 30
-    maxAirAcceleration: 20
-    gravity: 10
-    maxFallSpeed: 20
-  jumping:
-    enabled: 1
-    baseHeight: 1
-    extraHeight: 4.0999999
-    perpAmount: 0
-    steepPerpAmount: .5
-  movingPlatform:
-    enabled: 1
-    movementTransfer: 2
-  sliding:
-    enabled: 1
-    slidingSpeed: 15
-    sidewaysControl: 1
-    speedControl: .400000006
+  _turnSpeed: 2
+  _walkSpeed: 4
+  _backSpeed: 2
+  _runMultiplier: 2
+  _jumpInitialSpeed: 0
+  _isGrounded: 0
 --- !u!114 &3256379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 3256376}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60bca8f58a0b8478e946e6e86658cb29, type: 3}
+  m_Script: {fileID: 11500000, guid: ca4f7162b398c476dbc360a0ed2c70ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
 --- !u!54 &3256380
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,6 +166,30 @@ CharacterController:
   m_StepOffset: .400000006
   m_SkinWidth: .0500000007
   m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3256382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 3256376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a4be9441378424e886ab745dc9d8a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &3256383
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 3256376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &220698813
 GameObject:
@@ -307,7 +296,7 @@ Transform:
   m_GameObject: {fileID: 836904137}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .400000006, y: .5, z: .400000006}
+  m_LocalScale: {x: .372686267, y: .465857893, z: .372686267}
   m_Children: []
   m_Father: {fileID: 3256377}
 --- !u!23 &836904139
@@ -457,7 +446,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.00597477
+      value: 5.22188663
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
       propertyPath: m_LocalPosition.z
@@ -519,6 +508,18 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .372686267
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .465857893
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
+      propertyPath: m_LocalScale.z
+      value: .372686267
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400004, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
     - {fileID: 11400002, guid: 9d4133d5d30b644bd87802a347eaccbe, type: 2}
@@ -538,6 +539,8 @@ GameObject:
   - 33: {fileID: 2050500470}
   - 65: {fileID: 2050500469}
   - 23: {fileID: 2050500468}
+  - 154: {fileID: 2050500472}
+  - 64: {fileID: 2050500473}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -572,7 +575,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2050500467}
-  m_Material: {fileID: 13400000, guid: 67db31eead11e8d6d00011d98d76c639, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -596,3 +599,26 @@ Transform:
   m_LocalScale: {x: 50, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!154 &2050500472
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2050500467}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_TerrainData: {fileID: 0}
+  m_CreateTreeColliders: 1
+--- !u!64 &2050500473
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2050500467}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
