@@ -114,7 +114,7 @@ public class NetworkManagerScript : MonoBehaviour {
 			if (GUI.Button(new Rect(btnX, btnY * 2.2f + btnH, btnW, btnH), "DirectIP")) {
 				Network.Connect("192.168.50.195", 25002);
 			}
-			/*
+
 			if (hosts != null) {
 				for (int i = 0; i < hosts.Length; i++) {
 					// put out a button for each server, clicking it will connect to server
@@ -127,7 +127,6 @@ public class NetworkManagerScript : MonoBehaviour {
 					}
 				}
 			}
-			*/
 		}
 	}
 }

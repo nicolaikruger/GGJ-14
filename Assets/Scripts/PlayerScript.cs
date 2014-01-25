@@ -8,19 +8,21 @@ public class PlayerScript : MonoBehaviour {
 	private const int BLUE = 1;
 	private const int RED = 2;
 
+	// graphics
 	public Material _noTeamMaterial;
 	public Material _blueTeamMaterial;
 	public Material _redTeamMaterial;
 	private Material[] teamMaterials = new Material[3];
 	public Renderer _renderer;
 
+	// game values
 	public float _dashCooldownTime = 5f;
 	public float _interactionCooldownTime = 5f;
 
 	private int playerCount;
 
-	private int team = NOTEAM;
-	private int role = 0;
+	int team = NOTEAM;
+	int role = 0;
 
 	private float dashCooldown;
 	private float interactionCooldown;
@@ -55,7 +57,12 @@ public class PlayerScript : MonoBehaviour {
 	void OnTriggerEnter(Collider collider) {
 		if (Network.isServer) {
 			if (collider.tag == "Pickup") {
-				networkView.RPC("SetTeam", RPCMode.All, BLUE);
+				// TODO Need pickups first
+			}
+
+			else if (collider.tag == "Player") {
+				PlayerScript other = collider.gameObject.GetComponent<PlayerScript>();
+
 			}
 		}
 	}
