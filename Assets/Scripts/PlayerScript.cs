@@ -17,17 +17,16 @@ public class PlayerScript : MonoBehaviour {
 	public float _dashCooldownTime = 5f;
 	public float _interactionCooldownTime = 5f;
 
-	private int playerCount;
+	[HideInInspector] public int playerCount;
 
-	private int team = NOTEAM;
-	private int role = 0;
+	[HideInInspector] public int team = NOTEAM;
+	[HideInInspector] public int role = 0;
 
-	private float dashCooldown;
-	private float interactionCooldown;
+	[HideInInspector] public float dashCooldown;
+	[HideInInspector] public float interactionCooldown;
 
 	private bool alive;
-	private int score;
-
+	[HideInInspector] public int score;
 
 
 
