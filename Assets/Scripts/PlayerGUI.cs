@@ -14,7 +14,6 @@ public class PlayerGUI : MonoBehaviour {
 	void Start() {
 		if (networkView.isMine) {
 			thisPlayerCamPos = _cam.transform.position;
-			// DestroyImmediate (_nameTagObject);
 		}
 	}
 
@@ -38,8 +37,7 @@ public class PlayerGUI : MonoBehaviour {
 			}
 
 		} 
-			_nameTag.text = "" + _playerScript.role;
-			_nameTag.transform.LookAt(thisPlayerCamPos);
-		//}
+		_nameTag.text = "" + _playerScript.role;
+		_nameTag.transform.LookAt(thisPlayerCamPos);
 	}
 }

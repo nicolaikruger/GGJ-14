@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour {
 	// statics
 	private static bool gameStarted = false;
 
-	private static Transform spawnPoint;
+	private Transform spawnPoint;
 
 	// pickup prefab
 	public GameObject _pickupPrefab;
@@ -63,7 +63,16 @@ public class PlayerScript : MonoBehaviour {
 		dashCooldown = 0f;
 		interactionCooldown = 0f;
 		GetComponent<BoxCollider>().enabled = true;
-		numOnTeams = new int[3];
+
+		if(Network.isServer)
+			numOnTeams = new int[3];
+
+		if (Network.isServer) {
+			foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+				PlayerScript player = obj.GetComponent<PlayerScript> ();
+				player.networkView.RPC ("SetPosition", RPCMode.All, spawnPoint.position);
+			}
+		}
 	}
 
 	void OnGUI() {
@@ -99,15 +108,28 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// IsGameEnded?
+		bool isGameEnded = false;
+
+
 		if (gameStarted && Network.isServer) {
-			if(playersAlive <= 1
-			   		||
-			   pickupsLeft <= 0 && playersAlive <= 2
-			   		||
-			   numOnTeams[RED] == playersAlive
-			   		|| 
-			   numOnTeams[BLUE] == playersAlive) 
+			if(playersAlive == 2) {
+				if(pickupsLeft <= 0) {
+					isGameEnded = true;
+				} else {
+					PlayerScript[] players = new PlayerScript[2];
+					int i = 0;
+					foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+						PlayerScript p = obj.GetComponent<PlayerScript>();
+						if(p.alive)
+							players[i++] = p;
+					}
+					if(players[0].role == players[1].role) {
+						isGameEnded = true;
+					}
+				}
+			}
+
+			if(isGameEnded || playersAlive <= 1 || numOnTeams[RED] == playersAlive ||  numOnTeams[BLUE] == playersAlive) 
 			{
 				// Ended
 				// Find winner
@@ -150,7 +172,8 @@ public class PlayerScript : MonoBehaviour {
 				networkView.RPC("SetTeam", RPCMode.All, pickup.color);
 				networkView.RPC("SetRole", RPCMode.All, pickup.role);
 
-				numOnTeams[pickup.color]++;
+				if(Network.isServer)
+					numOnTeams[pickup.color]++;
 
 				// remove pickup
 				Network.Destroy(collider.gameObject.networkView.viewID);
@@ -277,8 +300,10 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void Kill() {
 		alive = false;
-		playersAlive--;
-		numOnTeams[team]--;
+		if (Network.isServer) {
+			playersAlive--;
+			numOnTeams [team]--;
+		}
 
 		// TODO whatevs, maybe remove, maybe dead body, w/e
 		SetPosition(new Vector3(0, -50, 0));
@@ -288,7 +313,6 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void StartGame() {
 		init ();
-		this.transform.position = spawnPoint.position;
 		gameStarted = true;
 	}
 
