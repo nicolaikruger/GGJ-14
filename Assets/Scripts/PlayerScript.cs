@@ -66,8 +66,13 @@ public class PlayerScript : MonoBehaviour {
 		// If you don't have a team, you can interact with pickups, and nothing else
 		if (team == NOTEAM) {
 			if (collider.tag == "Pickup") {
-				// TODO Need pickups first
-				networkView.RPC("SetTeam", RPCMode.All, BLUE);
+				PickupScript pickup = collider.gameObject.GetComponent<PickupScript>();
+
+				networkView.RPC("SetTeam", RPCMode.All, pickup.color);
+				networkView.RPC("SetRole", RPCMode.All, pickup.role);
+
+				// remove pickup
+				Network.Destroy(collider.gameObject.networkView.viewID);
 			}
 			else return;
 		}
