@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour {
 	// statics
 	private static bool gameStarted = false;
 
+	private static Transform spawnPoint;
+
 	// pickup prefab
 	public GameObject _pickupPrefab;
 
@@ -29,7 +31,10 @@ public class PlayerScript : MonoBehaviour {
 	public int _teamlessKillValue;
 	// TODO survive value?
 
-	[HideInInspector] public int playerCount;
+	[HideInInspector] 	public int playerCount;
+	private static int playersAlive;
+	private static int pickupsLeft;
+	private static int[] numOnTeams;
 
 	[HideInInspector] public int team = NOTEAM;
 	[HideInInspector] public int role = 0;
@@ -37,7 +42,7 @@ public class PlayerScript : MonoBehaviour {
 	[HideInInspector] public float dashCooldown;
 	[HideInInspector] public float interactionCooldown;
 
-	private bool alive;
+	[HideInInspector] public bool alive;
 	[HideInInspector] public int score;
 
 	[HideInInspector] public string name;
@@ -47,6 +52,7 @@ public class PlayerScript : MonoBehaviour {
 		teamMaterials[NOTEAM] = _noTeamMaterial;
 		teamMaterials[BLUE] = _blueTeamMaterial;
 		teamMaterials[RED] = _redTeamMaterial;
+		spawnPoint = GameObject.Find("SpawnPoint").transform;
 	}
 
 	void init() {
@@ -57,6 +63,7 @@ public class PlayerScript : MonoBehaviour {
 		dashCooldown = 0f;
 		interactionCooldown = 0f;
 		GetComponent<BoxCollider>().enabled = true;
+		numOnTeams = new int[3];
 	}
 
 	void OnGUI() {
@@ -78,6 +85,8 @@ public class PlayerScript : MonoBehaviour {
 					pickup.role = 1 + Mathf.CeilToInt(i/2);
 				}
 
+				pickupsLeft = players.Length;
+
 				// reset and spawn each player
 				foreach(GameObject obj in players) {
 					PlayerScript player = obj.GetComponent<PlayerScript>();
@@ -90,6 +99,25 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// IsGameEnded?
+		if (gameStarted && Network.isServer) {
+			if(playersAlive <= 1
+			   		||
+			   pickupsLeft <= 0 && playersAlive <= 2
+			   		||
+			   numOnTeams[RED] == playersAlive
+			   		|| 
+			   numOnTeams[BLUE] == playersAlive) 
+			{
+				// Ended
+				// Find winner
+				foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+					PlayerScript player = obj.GetComponent<PlayerScript>();
+					player.networkView.RPC("EndGame", RPCMode.All);
+				}
+			}
+	   }
+
 		// Manage cooldowns
 		if (dashCooldown > 0) {
 			dashCooldown -= Time.deltaTime;
@@ -122,8 +150,13 @@ public class PlayerScript : MonoBehaviour {
 				networkView.RPC("SetTeam", RPCMode.All, pickup.color);
 				networkView.RPC("SetRole", RPCMode.All, pickup.role);
 
+				numOnTeams[pickup.color]++;
+
 				// remove pickup
 				Network.Destroy(collider.gameObject.networkView.viewID);
+
+				// There are one less PickUp
+				pickupsLeft--;
 			}
 			else return;
 		}
@@ -235,12 +268,18 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void SetPlayerCount(int newCount) {
 		playerCount = newCount;
+		if (!gameStarted && Network.isServer) {
+			playersAlive = playerCount;
+		}
 	}
 
 	// TODO add for alive/dead as well
 	[RPC]
 	public void Kill() {
 		alive = false;
+		playersAlive--;
+		numOnTeams[team]--;
+
 		// TODO whatevs, maybe remove, maybe dead body, w/e
 		SetPosition(new Vector3(0, -50, 0));
 		GetComponent<BoxCollider>().enabled = false;
@@ -249,7 +288,16 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void StartGame() {
 		init ();
+		this.transform.position = spawnPoint.position;
 		gameStarted = true;
+	}
+
+	[RPC]
+	public void EndGame() {
+		gameStarted = false;
+		SetRole (0);
+		SetTeam (NOTEAM);
+		Debug.Log ("GAME ENDED!");
 	}
 
 	[RPC]
