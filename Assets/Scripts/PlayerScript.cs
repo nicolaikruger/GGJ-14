@@ -91,10 +91,21 @@ public class PlayerScript : MonoBehaviour {
 		if (dashCooldown > 0) {
 			dashCooldown -= Time.deltaTime;
 		}
-		if (interactionCooldown > 0) {
-			interactionCooldown -= Time.deltaTime;
+		if (team == RED || team == BLUE) {
+			if (interactionCooldown > 0) {
+				Color color = _renderer.material.color;
+				color.a = 0.75f;
+				_renderer.material.color = color;
+				//_renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+				interactionCooldown -= Time.deltaTime;
+			} else {
+				SetTeam(team);
+				/*Color color = _renderer.material.color;
+				color.a = 1.0f;
+				_renderer.material.color = color;*/
+				//_renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+			}
 		}
-	
 	}
 
 	// When player collides with shit
