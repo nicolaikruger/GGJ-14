@@ -32,12 +32,6 @@ public class PlayerMovement : MonoBehaviour {
 		Debug.Log ("COLLISION");
 	}
 
-	void OnTriggerEnter(Collider collider) {
-		if (collider.tag == "Player") {			
-			Debug.Log ("Trigger Event!");
-		} 
-	}
-
     public void TurnLeft()
     {
         var rot = _trans.rotation;

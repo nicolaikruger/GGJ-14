@@ -250,6 +250,14 @@ MonoBehaviour:
   _renderer: {fileID: 2300000}
   _dashCooldownTime: 5
   _interactionCooldownTime: 5
+  _otherTeamKillValue: 2
+  _teamlessKillValue: 1
+  playerCount: 0
+  team: 0
+  role: 0
+  dashCooldown: 0
+  interactionCooldown: 0
+  score: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
