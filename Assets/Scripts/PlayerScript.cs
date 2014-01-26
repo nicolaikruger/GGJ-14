@@ -8,6 +8,9 @@ public class PlayerScript : MonoBehaviour {
 	private const int BLUE = 1;
 	private const int RED = 2;
 
+	// statics
+	private static bool gameStarted = false;
+
 	// graphics
 	public Material _noTeamMaterial;
 	public Material _blueTeamMaterial;
@@ -33,14 +36,31 @@ public class PlayerScript : MonoBehaviour {
 	private bool alive;
 	[HideInInspector] public int score;
 
-
-
-
 	// Use this for initialization
 	void Start () {
 		teamMaterials[NOTEAM] = _noTeamMaterial;
 		teamMaterials[BLUE] = _blueTeamMaterial;
 		teamMaterials[RED] = _redTeamMaterial;
+	}
+
+	void init() {
+		SetTeam(NOTEAM);
+		SetRole (0);
+		SetScore (0);
+		dashCooldown = 0f;
+		interactionCooldown = 0f;
+	}
+
+	void OnGUI() {
+		if (Network.isServer && !gameStarted) {
+			if (GUI.Button (new Rect (100, 100, 200, 100), "Start game")) {
+				gameStarted = true;
+				foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+					PlayerScript player = obj.GetComponent<PlayerScript>();
+					player.networkView.RPC("StartGame", RPCMode.All);
+				}
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -195,6 +215,12 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void Spawn() {
 		// TODO Enable collider and shits
+	}
+
+	[RPC]
+	public void StartGame() {
+		init ();
+		gameStarted = true;
 	}
 
 	[RPC]
