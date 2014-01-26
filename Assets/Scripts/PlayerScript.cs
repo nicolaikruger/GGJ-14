@@ -55,7 +55,8 @@ public class PlayerScript : MonoBehaviour {
 		if (Network.isServer && !gameStarted) {
 			if (GUI.Button (new Rect (100, 100, 200, 100), "Start game")) {
 				gameStarted = true;
-				foreach(PlayerScript player in GameObject.FindGameObjectsWithTag("Player")) {
+				foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+					PlayerScript player = obj.GetComponent<PlayerScript>();
 					player.networkView.RPC("StartGame", RPCMode.All);
 				}
 			}
