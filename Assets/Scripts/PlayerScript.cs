@@ -297,7 +297,11 @@ public class PlayerScript : MonoBehaviour {
 		gameStarted = false;
 		SetRole (0);
 		SetTeam (NOTEAM);
-		Debug.Log ("GAME ENDED!");
+
+		// Clena up that mess!
+		foreach (GameObject pickUp in GameObject.FindGameObjectsWithTag("Pickup")) {
+			Network.Destroy(pickUp.networkView.viewID);
+		}
 	}
 
 	[RPC]
