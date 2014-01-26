@@ -386,13 +386,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7acfff40e0568d64ea7a507b55f10a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pickupPrefab: {fileID: 100000, guid: 545dcb31a538b1f469564e656fc4b1cc, type: 2}
   _noTeamMaterial: {fileID: 2100000, guid: b7f3ead85f60e45019113055bf6dff55, type: 2}
   _blueTeamMaterial: {fileID: 2100000, guid: 318edfe34a7a34a0cac5a0a266e81058, type: 2}
   _redTeamMaterial: {fileID: 2100000, guid: ed86959685faa4d84a6e2da17e2bda8f, type: 2}
   _renderer: {fileID: 2300000}
   _dashCooldownTime: 5
   _interactionCooldownTime: 5
-  _otherTeamKillValue: 2
+  _killValue: 0
   _teamlessKillValue: 1
   playerCount: 0
   team: 0

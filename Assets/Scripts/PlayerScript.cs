@@ -11,6 +11,9 @@ public class PlayerScript : MonoBehaviour {
 	// statics
 	private static bool gameStarted = false;
 
+	// pickup prefab
+	public GameObject _pickupPrefab;
+
 	// graphics
 	public Material _noTeamMaterial;
 	public Material _blueTeamMaterial;
@@ -21,7 +24,7 @@ public class PlayerScript : MonoBehaviour {
 	// game values
 	public float _dashCooldownTime = 5f;
 	public float _interactionCooldownTime = 5f;
-	public int _otherTeamKillValue;
+	public int _killValue;
 	public int _teamlessKillValue;
 	// TODO survive value?
 
@@ -49,14 +52,32 @@ public class PlayerScript : MonoBehaviour {
 		SetScore (0);
 		dashCooldown = 0f;
 		interactionCooldown = 0f;
+		GetComponent<BoxCollider>().enabled = true;
 	}
 
 	void OnGUI() {
 		if (Network.isServer && !gameStarted) {
+			// Button for starting game, for server
 			if (GUI.Button (new Rect (100, 100, 200, 100), "Start game")) {
-				gameStarted = true;
-				foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+				// get all players
+				var players = GameObject.FindGameObjectsWithTag("Player");
+
+				// spawn pickups
+				for (int i = 0; i < players.Length; i++) {
+					GameObject go = (GameObject) Network.Instantiate(
+						_pickupPrefab,
+						new Vector3(Random.Range(-25, 25), 1, (Random.Range(-25, 25))),
+						Quaternion.identity,
+						0);
+					PickupScript pickup = go.GetComponent<PickupScript>();
+					pickup.color = 1 + (i % 2);
+					pickup.role = 1 + Mathf.CeilToInt(i/2);
+				}
+
+				// reset and spawn each player
+				foreach(GameObject obj in players) {
 					PlayerScript player = obj.GetComponent<PlayerScript>();
+					player.networkView.RPC("SetPlayerCount", RPCMode.All, players.Length);
 					player.networkView.RPC("StartGame", RPCMode.All);
 				}
 			}
@@ -126,11 +147,11 @@ public class PlayerScript : MonoBehaviour {
 		}
 		// check for kill if other team, and/or swap if same role
 		else {
-			if (role == target.role-1) {
+			if (role > target.role) {
 				// Kill target
 				target.networkView.RPC("Kill", RPCMode.All);
 				// Increase score
-				networkView.RPC ("SetScore", RPCMode.All, score + _otherTeamKillValue);
+				networkView.RPC ("SetScore", RPCMode.All, score + _killValue);
 			}
 			else if (role == target.role) {
 				int thisteam = team;
@@ -142,11 +163,11 @@ public class PlayerScript : MonoBehaviour {
 				networkView.RPC("StartInteractionCooldown", RPCMode.All);
 				target.networkView.RPC("StartInteractionCooldown", RPCMode.All);
 			}
-			else if (role == target.role+1) {
+			else if (role < target.role) {
 				// Kill target
 				networkView.RPC("Kill", RPCMode.All);
 				// Increase score
-				target.networkView.RPC ("SetScore", RPCMode.All, target.score + _otherTeamKillValue);
+				target.networkView.RPC ("SetScore", RPCMode.All, target.score + _killValue);
 			}
 		}
 	}
@@ -210,11 +231,6 @@ public class PlayerScript : MonoBehaviour {
 		// TODO whatevs, maybe remove, maybe dead body, w/e
 		SetPosition(new Vector3(0, -50, 0));
 		GetComponent<BoxCollider>().enabled = false;
-	}
-
-	[RPC]
-	public void Spawn() {
-		// TODO Enable collider and shits
 	}
 
 	[RPC]
