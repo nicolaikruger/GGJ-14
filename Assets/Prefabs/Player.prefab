@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4f7162b398c476dbc360a0ed2c70ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _player: {fileID: 11400002}
   _cam: {fileID: 2000000}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -375,6 +375,7 @@ MonoBehaviour:
   _walkSpeed: 4
   _backSpeed: 1
   _dashSpeed: 30
+  _player: {fileID: 11400004}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour {
     public float _backSpeed = 1.0f;
 	public float _dashSpeed = 30.0f;
 
+	public PlayerScript _player;
+
 	private bool dashing = false;
 	private Vector3 dashTo = new Vector3(0,0,0);
 
@@ -59,12 +61,15 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 	public void Dash() {
-		RaycastHit hit;
-		Vector3 fwd = _trans.TransformDirection(Vector3.forward);
-		if (Physics.Raycast (_trans.position, fwd, out hit)) {
-			Debug.Log ("There is something in front of the object! About " + hit.distance + " units away");
-			dashTo = _trans.position + fwd * hit.distance;
-			dashing = true;
+		if(_player.dashCooldown <= 0) {
+			RaycastHit hit;
+			Vector3 fwd = _trans.TransformDirection(Vector3.forward);
+			if (Physics.Raycast (_trans.position, fwd, out hit)) {
+				Debug.Log ("There is something in front of the object! About " + hit.distance + " units away");
+				dashTo = _trans.position + fwd * hit.distance;
+				dashing = true;
+			}
+			_player.StartDashCooldown();
 		}
 	}
 }
