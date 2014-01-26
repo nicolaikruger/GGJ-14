@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248550be1e822df458e8d68007465e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxConnections: 4
+  maxConnections: 15
   port: 25002
   gameNameForMasterServer: J14_Game_CPHPH
   gameName: GGJ14 Game server!

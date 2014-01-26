@@ -47,6 +47,7 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void init() {
+		alive = true;
 		SetTeam(NOTEAM);
 		SetRole (0);
 		SetScore (0);
@@ -126,6 +127,9 @@ public class PlayerScript : MonoBehaviour {
 		
 		// Don't collide with target if target is on cooldown
 		if (target.interactionCooldown > 0) return;
+
+		// Don't collide if target is dead
+		if (!target.alive) return;
 
 		// Kill for easy points if target has no teams (or stun)
 		if (target.team == NOTEAM) {
