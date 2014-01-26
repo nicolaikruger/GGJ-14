@@ -17,6 +17,11 @@ public class NetworkManagerScript : MonoBehaviour {
 	private HostData[] hosts;
 	private bool refreshing = false;
 
+	// Player name
+	private string playerName = "PlayerName";
+	// directIP
+	private string ip = "127.0.0.1";
+
 	// button size whatevs
 	private float btnX;
 	private float btnY;
@@ -28,7 +33,7 @@ public class NetworkManagerScript : MonoBehaviour {
 		btnX = Screen.width * 0.05f;
 		btnY = Screen.height * 0.05f;
 		btnW = Screen.width * 0.2f;
-		btnH = Screen.width * 0.1f;
+		btnH = Screen.width * 0.05f;
 	}
 
 	//
@@ -48,7 +53,9 @@ public class NetworkManagerScript : MonoBehaviour {
 
 	// Spawn the player at the spawn point object
 	void SpawnPlayer() {
-		Network.Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity, 0);
+		GameObject go = (GameObject) Network.Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity, 0);
+		// set player name
+		go.GetComponent<PlayerScript>().networkView.RPC("SetName", RPCMode.AllBuffered, playerName);
 	}
 
 
@@ -103,17 +110,21 @@ public class NetworkManagerScript : MonoBehaviour {
 	void OnGUI() {
 		// Don't show connection UI if you are connected or hosting server already
 		if (!Network.isServer && !Network.isClient) {
-			if (GUI.Button(new Rect(btnX, btnY, btnW, btnH), "Start server")) {
+			playerName = GUI.TextField(new Rect(btnX, btnY, btnW, btnH *0.5f), playerName);
+
+			if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Start server")) {
 				Debug.Log ("Starting Server");
 				StartServer();
 			}
-			if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Refresh server list")) {
+			if (GUI.Button(new Rect(btnX, btnY * (1.2f*2f) + btnH, btnW, btnH), "Find servers")) {
 				Debug.Log ("Refreshing server list...");
 				RefreshHostList();
 			}
-			if (GUI.Button(new Rect(btnX, btnY * 2.2f + btnH, btnW, btnH), "DirectIP")) {
-				Network.Connect("192.168.50.195", 25002);
+			if (GUI.Button(new Rect(btnX, btnY * (1.2f*3f) + btnH, btnW, btnH), "Connect to IP")) {
+				Network.Connect(ip, port);
 			}
+
+			ip = GUI.TextField(new Rect(btnX, btnY * (1.2f*4f) + btnH, btnW, btnH *0.5f), ip);
 
 			if (hosts != null) {
 				for (int i = 0; i < hosts.Length; i++) {

@@ -39,6 +39,8 @@ public class PlayerScript : MonoBehaviour {
 	private bool alive;
 	[HideInInspector] public int score;
 
+	[HideInInspector] public string name;
+
 	// Use this for initialization
 	void Start () {
 		teamMaterials[NOTEAM] = _noTeamMaterial;
@@ -94,7 +96,7 @@ public class PlayerScript : MonoBehaviour {
 		if (team == RED || team == BLUE) {
 			if (interactionCooldown > 0) {
 				Color color = _renderer.material.color;
-				color.a = 0.75f;
+				color.a = 0.75f; // TODO put this in inspector
 				_renderer.material.color = color;
 				//_renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				interactionCooldown -= Time.deltaTime;
@@ -257,5 +259,10 @@ public class PlayerScript : MonoBehaviour {
 	[RPC]
 	public void SetPosition(Vector3 pos) {
 		this.transform.position = pos;
+	}
+
+	[RPC]
+	public void SetName(string newName) {
+		name = newName;
 	}
 }

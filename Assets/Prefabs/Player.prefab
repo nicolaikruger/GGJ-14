@@ -402,6 +402,7 @@ MonoBehaviour:
   dashCooldown: 0
   interactionCooldown: 0
   score: 0
+  name: 
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
