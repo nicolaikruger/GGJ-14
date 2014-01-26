@@ -37,9 +37,9 @@ public class PlayerGUI : MonoBehaviour {
 				GUI.Label (new Rect (10, Screen.height - (++i*20), 200, 20), player.name + ":\t" + player.score);
 			}
 
-		} else {
+		} 
 			_nameTag.text = "" + _playerScript.role;
 			_nameTag.transform.LookAt(thisPlayerCamPos);
-		}
+		//}
 	}
 }

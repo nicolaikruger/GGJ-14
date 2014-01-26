@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour {
 	public Material _redTeamMaterial;
 	private Material[] teamMaterials = new Material[3];
 	public Renderer _renderer;
+	public float _alpha = 0.75f;
 
 	// game values
 	public float _dashCooldownTime = 5f;
@@ -96,16 +97,11 @@ public class PlayerScript : MonoBehaviour {
 		if (team == RED || team == BLUE) {
 			if (interactionCooldown > 0) {
 				Color color = _renderer.material.color;
-				color.a = 0.75f; // TODO put this in inspector
+				color.a = _alpha; // TODO put this in inspector
 				_renderer.material.color = color;
-				//_renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				interactionCooldown -= Time.deltaTime;
 			} else {
 				SetTeam(team);
-				/*Color color = _renderer.material.color;
-				color.a = 1.0f;
-				_renderer.material.color = color;*/
-				//_renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 			}
 		}
 	}
